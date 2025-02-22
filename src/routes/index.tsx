@@ -1,27 +1,27 @@
 import Layout from "@/components/layout";
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "@/pages/Dashboard";
 import { Kanban } from "lucide-react";
 import NotFound from "@/pages/NotFound";
+import Login from "@/pages/Login";
+import LandingPage from "@/pages";
 
 export const router = createBrowserRouter([
-  // TODO : Login과 같이 Layout 필요없는 페이지를 위한 URL 재구성
   {
     path: "/",
-    element: <Navigate to="/dashboard" replace />,
+    element: <LandingPage />,
   },
   {
-    path: "/auth",
-    element: <Navigate to="/dashboard" replace />,
+    path: "/login",
+    element: <Login />,
   },
   {
     path: "/",
     element: <Layout />,
     children: [
       {
-        path: "/",
+        path: "/projects",
         children: [
-          { index: true, element: <Dashboard /> },
           { path: "dashboard", element: <Dashboard /> },
           { path: "kanban", element: <Kanban /> },
         ],
