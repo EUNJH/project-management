@@ -1,5 +1,6 @@
 import { Session, User } from "@supabase/supabase-js";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface AuthState {
   user: User | null;
@@ -8,9 +9,16 @@ interface AuthState {
   logout: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  session: null,
-  login: (user, session) => set({ user, session }),
-  logout: () => set({ user: null, session: null }),
-}));
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      session: null,
+      login: (user, session) => set({ user, session }),
+      logout: () => set({ user: null, session: null }),
+    }),
+    {
+      name: "auth-storage",
+    }
+  )
+);
