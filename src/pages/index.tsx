@@ -1,6 +1,24 @@
-import { Link } from "react-router-dom";
+import LoginModal from "@/components/Auth/LoginModal";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const openLoginModal = () => {
+    setIsLoginModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
+  const handleLoginSuccess = () => {
+    closeModal();
+    navigate("/dashboard");
+  };
+
   return (
     <div className="min-h-screen bg-black text-white flex flex-col overflow-hidden relative">
       {/* 애니메이션 배경 - Canvas 대신 div 요소 사용 */}
@@ -81,18 +99,18 @@ export default function LandingPage() {
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Link
-            to="/login"
+          <button
+            onClick={openLoginModal}
             className="text-gray-400 hover:text-white transition-colors"
           >
             Login
-          </Link>
-          <Link
-            to="/register"
+          </button>
+          <button
+            onClick={openLoginModal}
             className="px-4 py-2 bg-white text-black font-medium rounded-full hover:bg-gray-200 transition-colors"
           >
             Sign up
-          </Link>
+          </button>
         </div>
       </header>
 
@@ -112,15 +130,21 @@ export default function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/register"
+            <button
+              onClick={openLoginModal}
               className="px-8 py-4 bg-white text-black font-medium rounded-full hover:bg-gray-100 transition-colors text-lg"
             >
               Start for free
-            </Link>
+            </button>
           </div>
         </div>
       </section>
+
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={closeModal}
+        onSuccess={handleLoginSuccess}
+      />
     </div>
   );
 }

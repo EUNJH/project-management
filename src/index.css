@@ -71,8 +71,8 @@ body {
     Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: black;
-  color: white;
+  /* background-color: black;
+  color: white; */
   overflow: hidden; /* 스크롤 제거 */
 }
 
