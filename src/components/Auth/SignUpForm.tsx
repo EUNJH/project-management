@@ -21,6 +21,7 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       await signup({ email, password, confirmedPassword });
@@ -28,7 +29,14 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
       if (error instanceof AuthError) {
         console.log(error.message);
         setError(error.message);
+        return;
       }
+    } finally {
+      setIsLoading(false);
+    }
+
+    if (onSuccess) {
+      onSuccess();
     }
   };
 

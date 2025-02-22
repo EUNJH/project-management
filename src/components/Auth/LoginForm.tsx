@@ -23,6 +23,7 @@ export default function LoginForm({ onSuccess, moveSignup }: LoginFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       await login({ email, password });
@@ -31,6 +32,8 @@ export default function LoginForm({ onSuccess, moveSignup }: LoginFormProps) {
         setError(error.message);
       }
       return;
+    } finally {
+      setIsLoading(false);
     }
 
     if (onSuccess) {
