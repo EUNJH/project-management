@@ -1,18 +1,23 @@
 import { useEffect } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import LoginForm from "./LoginForm";
+import SignUpForm from "./SignUpForm";
 
-interface LoginModalProps {
+interface AuthModalProps {
   onClose: () => void;
   onSuccess: () => void;
+  moveSignup: () => void;
   isOpen: boolean;
+  type: "login" | "signup";
 }
 
-export default function LoginModal({
+export default function AuthModal({
   onClose,
   onSuccess,
+  moveSignup,
   isOpen,
-}: LoginModalProps) {
+  type,
+}: AuthModalProps) {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -31,8 +36,13 @@ export default function LoginModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogTitle></DialogTitle>
       <DialogContent className="sm:max-w-md border-border bg-background">
-        <LoginForm onSuccess={onSuccess} />
+        {type === "login" ? (
+          <LoginForm onSuccess={onSuccess} moveSignup={moveSignup} />
+        ) : (
+          <SignUpForm onSuccess={onSuccess} />
+        )}
       </DialogContent>
     </Dialog>
   );

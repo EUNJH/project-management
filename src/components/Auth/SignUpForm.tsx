@@ -2,39 +2,33 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/hooks/useAuth";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AuthError } from "@/types/auth";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
-interface LoginFormProps {
+interface SignUpFormProps {
   onSuccess?: () => void;
-  moveSignup: () => void;
 }
 
-export default function LoginForm({ onSuccess, moveSignup }: LoginFormProps) {
+export default function SignUpForm({ onSuccess }: SignUpFormProps) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [confirmedPassword, setConfirmedPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { login } = useAuth();
+  const { signup } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      await login({ email, password });
+      await signup({ email, password, confirmedPassword });
     } catch (error) {
       if (error instanceof AuthError) {
+        console.log(error.message);
         setError(error.message);
       }
-      return;
-    }
-
-    if (onSuccess) {
-      onSuccess();
     }
   };
 
@@ -100,12 +94,6 @@ export default function LoginForm({ onSuccess, moveSignup }: LoginFormProps) {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
-              <Link
-                to="/forgot-password"
-                className="text-sm text-muted-foreground hover:underline"
-              >
-                Forgot password?
-              </Link>
             </div>
             <Input
               id="password"
@@ -117,11 +105,18 @@ export default function LoginForm({ onSuccess, moveSignup }: LoginFormProps) {
             />
           </div>
 
-          <div className="flex items-center space-x-2">
-            <Checkbox id="remember-me" />
-            <Label htmlFor="remember-me" className="text-sm">
-              Remember me
-            </Label>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="Confirmedpassword">Confirm Password</Label>
+            </div>
+            <Input
+              id="Confirmedpassword"
+              type="password"
+              value={confirmedPassword}
+              onChange={(e) => setConfirmedPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            />
           </div>
 
           {/* 에러 메시지 */}
@@ -134,22 +129,9 @@ export default function LoginForm({ onSuccess, moveSignup }: LoginFormProps) {
           )}
 
           <Button type="submit" disabled={isLoading} className="w-full">
-            {isLoading ? "Signing in..." : "Log in"}
+            {isLoading ? "Signing up..." : "Sign up"}
           </Button>
         </form>
-
-        <div className="mt-4 text-center text-sm">
-          <span className="text-slate-600">
-            Don't have an account?{" "}
-            <Button
-              variant="link"
-              className="p-0 h-auto text-blue-600 hover:text-blue-800 hover:underline font-medium"
-              onClick={moveSignup}
-            >
-              Sign up
-            </Button>
-          </span>
-        </div>
       </div>
     </div>
   );
