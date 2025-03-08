@@ -30,8 +30,13 @@ export default function Dashboard() {
       try {
         setIsLaoding(true);
 
-        const data = await getProjects();
-        setProjects(data);
+        const { projects, error } = await getProjects();
+
+        if (error) {
+          throw new Error(error);
+        }
+
+        setProjects(projects);
       } catch (error) {
         console.error(error);
       } finally {

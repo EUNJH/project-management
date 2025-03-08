@@ -11,9 +11,14 @@ import { AuthError } from "@/types/auth";
 interface LoginFormProps {
   onSuccess?: () => void;
   moveSignup: () => void;
+  isBorder?: boolean;
 }
 
-export default function LoginForm({ onSuccess, moveSignup }: LoginFormProps) {
+export default function LoginForm({
+  onSuccess,
+  moveSignup,
+  isBorder = false,
+}: LoginFormProps) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -42,7 +47,11 @@ export default function LoginForm({ onSuccess, moveSignup }: LoginFormProps) {
   };
 
   return (
-    <div className={`bg-background rounded-lg w-full max-w-md`}>
+    <div
+      className={`bg-background rounded-lg w-full max-w-md ${
+        isBorder ? "border border-gray-400" : ""
+      }`}
+    >
       <div className="p-6">
         {/* 헤더 */}
         <div className="text-center mb-6">

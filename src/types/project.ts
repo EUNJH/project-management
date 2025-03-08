@@ -12,8 +12,10 @@ export interface Project {
   progress: number;
   dueDate: string;
   members: ProjectMember[];
+  created_at: string;
+  modified_at: string;
 }
 
-export type ProjectStatus = "active" | "completed" | "pending";
+export type ProjectStatus = "active" | "complete" | "archived";
 export type ViewMode = "grid" | "list";
 export type SortBy = "latest" | "oldest" | "name";

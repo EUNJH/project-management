@@ -29,7 +29,7 @@ export const authApi = {
       password: password,
       options: {
         data: {
-          username: email,
+          username: email.split("@")[0],
           avatar_url: null,
         },
       },
